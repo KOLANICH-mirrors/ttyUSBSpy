@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-05 09:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: core/ttyUsbSpy.py:119
+msgid "-"
+msgstr ""
+
+#: DlgttyUsbSpy.py:521
+#, python-format
+msgid ""
+"<p><b>ttyUSBSpy</b> decodes pcap files captured by por tcpdump\n"
+"\n"
+"from serial port (tcpdump uses usbmon module to capture data, so \n"
+"\n"
+"ttyUSBSpy only works with USB-RS232 conversor).</p>  \n"
+"\n"
+"<p>Grid shows hexadecimal data in the serial port\n"
+"\n"
+" except in cases where appears\"|\", this indicates a change \n"
+"\n"
+" in the signals RTS/CTS, clicking shows the value in the modem line status</p>\n"
+"\n"
+"<p>Captured data shows, Rs232 comunication and the comms\n"
+"\n"
+"of the SO with the usb-Rs232 conversor chip. So we have \n"
+"\n"
+"to choose the Dev number that identifies the Rs232 port\n"
+"\n"
+"to filter the comms with the chip. </p>\n"
+"\n"
+"<p><b>METHOD OF USE:</b></p>\n"
+"\n"
+"<p> Left mouse button shows the time (T1) and the status of the byte or signal</p>\n"
+"\n"
+"<p> Right mouse button shows the time (T2) and the status of the byte or signal \n"
+"\n"
+"and delta time (T2-T1) in milliseconds</p>\n"
+"\n"
+"<p> Send bytes or signals are shown in blue </p>\n"
+"\n"
+"<p> Received bytes or signals are shown in green</p>\n"
+"\n"
+"<p> Selected bytes or signals are shown in red </p>\n"
+"\n"
+"\n"
+"\n"
+"<p>It is running on version %(wxpy)s of <b>wxPython</b> and %(python)s of <b>Python</b>.\n"
+"\n"
+"See <a href=\"http://wiki.wxpython.org\">wxPython Wiki</a></p>\n"
+"\n"
+"<b>ttyUSBViewer</b> is based on the dwaley/ USB Reverse Engineering Software "
+msgstr ""
+
+#: DlgttyUsbSpy.py:696 DlgttyUsbSpy.py:713 core/ttyUsbSpy.py:42
+msgid "Capture"
+msgstr ""
+
+#: core/ttyUsbSpy.py:156
+msgid "Delta(T2-T1)(ms)"
+msgstr ""
+
+#: core/ttyUsbSpy.py:114
+msgid "Dev:"
+msgstr ""
+
+#: core/ttyUsbSpy.py:147
+msgid "End(T2)"
+msgstr ""
+
+#: core/ttyUsbSpy.py:48
+msgid "Languaje"
+msgstr ""
+
+#: core/ttyUsbSpy.py:122
+msgid "Modem Line Status"
+msgstr ""
+
+#: DlgttyUsbSpy.py:439 DlgttyUsbSpy.py:685
+msgid "Select File"
+msgstr ""
+
+#: core/ttyUsbSpy.py:64
+msgid "Select File:"
+msgstr ""
+
+#: core/ttyUsbSpy.py:138
+msgid "Start(T1)"
+msgstr ""
+
+#: DlgttyUsbSpy.py:709
+msgid "Stop"
+msgstr ""
+
+#: core/ttyUsbSpy.py:134
+msgid "Times"
+msgstr ""
+
+#: core/ttyUsbSpy.py:68
+msgid "file"
+msgstr ""
+
+#: core/ttyUsbSpy.py:29
+msgid "tool"
+msgstr ""
+
+#: core/ttyUsbSpy.py:24
+msgid "ttyUsbSpy"
+msgstr ""
