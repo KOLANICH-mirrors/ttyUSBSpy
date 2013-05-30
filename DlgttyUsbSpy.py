@@ -237,7 +237,6 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
 #                print "col:"+repr(col)+" i:"+repr(i)+" len(self.listdata)"+repr(len(self.processedlistdata))
 #                print "Data.setup:"+repr(data.setup)
 
-
             self.SetValue(row,col,data.data,data.setup)
         self.file.close()
 
@@ -278,6 +277,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
 # hemos filtrado los mensajes con setup 0 q llegan al hacer el cambio de senales                    
 #                        print "data.setup:"+repr(data.setup)
                         if len(datalist.data) > 1:
+#                            print "datalist.data:"+repr(datalist.data)
                             for b in range(len(datalist.data)):
 
                                 data.data = datalist.data[b]
@@ -310,7 +310,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
                                 
                         else:
                             data.data = datalist.data
-
+#                            print "2.-data.data:"+repr(data.data)
                             if ((data.direc == "Bo") or (data.direc == "Co")):
                                 data.color = wx.CYAN
                                 data.realcolor = wx.CYAN
@@ -331,19 +331,27 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
         print "Processed[" +repr(len(self.processedlistdata))+"]" 
         falta = len(self.processedlistdata) % 17
         if ( falta != 0):
-            falta = 17 - falta
-            data.nowMs = 0
-            data.xfer_type = 0
-            data.epnum = 0
-            data.setup = 0
-            data.direc = 0
-            data.devnum = 0  
-            data.data = "-"
-            data.color = wx.WHITE
-            data.realcolor = wx.WHITE
+            dataEnd = dataPack()
+            falta = 16 - falta
+            dataEnd.nowMs = 0
+            dataEnd.xfer_type = 0
+            dataEnd.epnum = 0
+            dataEnd.setup = 0
+            dataEnd.direc = 0
+            dataEnd.devnum = 0  
+            dataEnd.data = "-"
+            dataEnd.color = wx.WHITE
+            dataEnd.realcolor = wx.WHITE
             while falta > 0:
                 falta = falta -1
-                self.processedlistdata.append(data)  
+                self.processedlistdata.append(dataEnd)  
+                
+            dataASCII = dataPack()   
+            dataASCII.color = wx.WHITE
+            dataASCII.realcolor = wx.WHITE
+            dataASCII.data = self.dataDecodeLastLine()
+            dataASCII.setup = "DECODED"
+            self.processedlistdata.append(dataASCII)                
 
 ##
 # dataDecodeLastLine
@@ -774,7 +782,12 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
         self.view.EmptyGrid()
         self.view.processDataTable()
         self.view.showDataTable()
-        
+
+###############################################################################
+# setLateralPanelTxt
+#       Decodes de bytes to ASCII code.
+#   
+###############################################################################  
     def setLateralPanelTxt(self):
 
         print "len(self.listdata):" +repr(len(self.listdata))
@@ -798,23 +811,26 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
             else:
                 self.m_richText1.AppendText(sz_value)
 
-           	
+###############################################################################
+# DecodeSetup
+#       Decodes de bytes of the signal state.
+#   
+###############################################################################           	
 
     def DecodeSetup(self, setup):
 
         decoded = " "     
-        print "setup:" +repr(setup)   
+#        print "setup:" +repr(setup)   
         if (setup != "0"):
             cadena = setup.split(' ')
-#            print "setup:" +repr(setup)
             if (cadena[1] == "22") and (cadena[0] == "21"):
 
                 if (int(cadena[2],16) & int("0x0200",16)):
                     decoded = decoded +"DTR "
                 if (int(cadena[2],16) & int("0x0100",16)):
                     decoded = decoded + "RTS " 
-            elif(cadena[1] == "20") and (cadena[0] == "A1"):  
-                if (int(cadena[8],16) & int("0x80",16)):
+            elif(cadena[1] == "32") and (cadena[0] == "161"):  
+                if (int(cadena[8]) & int("0x80",16)):
                         decoded = decoded +"CTS "
                         
         decoded = decoded + "(" + setup + ")" 

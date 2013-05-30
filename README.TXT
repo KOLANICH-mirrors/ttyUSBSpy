@@ -25,5 +25,9 @@ USAGE:
    2) Charge captured file, ttyUSBSpy decodes the file and shows data and signals.
 
 
+v0.01e:
+  - Last line bug, repaired.
+  - Shows CTS Signal.
+  
 
 

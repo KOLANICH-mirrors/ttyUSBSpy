@@ -41,6 +41,7 @@ from struct import unpack_from, pack_into, unpack
 import datetime
 import logging
 import time
+import pdb
 #logging.basicConfig(level=logging.DEBUG)
 
 from util import reverse_update_dict, apply_mask
@@ -477,7 +478,8 @@ class Packet(PackedFields):
                 b.setup = self.setup.data_to_str()
         elif b.direc == "Ii":                
             b.data = "|"
-            b.setup = self.IiData_to_str()
+            if (self.data):
+                b.setup = self.IiData_to_str()
 
         else:        
             b.data = self.data
@@ -485,20 +487,22 @@ class Packet(PackedFields):
 
 
     def IiData_to_str(self):
-        """Compact hex representation of the incoming Ii data."""
-#        return '%02X %02X %02X%02X %02X%02X %02X%02X' % \
-#            unpack('<8B', data) # yuck 
-#        return  self.data
+        """Compact int representation of the incoming Ii data."""
+
         array = str(self.data).strip('[]')
         array = array.replace(",", '')
         array1 = array.split(' ')
-        koldo = " ".join(map(str, array1))
-#        koldo = (str(w) for w in array1)
-#        for i in range(len(array1)):
-#            array1[i]=hex(array1[i])
-#        print array1
-        return koldo
-#        return ''.join( [ "%02X " % ord( x ) for x in array ] ).strip()
+        for i in range(len(array1)):
+            try:
+                array1[i]=int(array1[i])
+            except TypeError:
+                print "array1[i] not int:"
+
+        print array1
+        print "Salgo del 100% cumcumber club"
+        rtrn = " ".join(map(str, array1))
+        
+        return rtrn
 
 SETUP_FIELD_FORMAT = dict(
         bmRequestType   =   ('<B',  0),
