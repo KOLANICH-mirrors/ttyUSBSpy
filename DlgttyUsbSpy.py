@@ -56,9 +56,9 @@ class dataPack:
 	realcolor = wx.WHITE
 
 
-class RxTxDataTable(wx.grid.PyGridTableBase):
+class RxTxDataTable(wx.grid.GridTableBase):
 	def __init__(self):
-		wx.grid.PyGridTableBase.__init__(self)
+		super().__init__()
 
 		self.colLabels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "ASCII"]
 		self.types = ["rel.", "abs.", "rel.+abs."]
@@ -140,7 +140,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
 		if not selected:
 			data.color = data.realcolor
 		else:
-			data.color = wx.Color(255, 100, 100)
+			data.color = wx.Colour(255, 100, 100)
 		self.processedlistdata[i] = data
 
 	###############################################################################
@@ -387,13 +387,14 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
 			return 0
 
 	def GetSetup(self, row, col):
-		if self.GetValue(row, col) != "-":
+		v = self.GetValue(row, col)
+		if v != "-":
 			i = row * 17 + col
 			data = self.processedlistdata[i]
 
 			return data.setup
 		else:
-			return 0
+			return None
 
 	def addDevnum(self, devnum, setup):
 		dev = str(devnum) + "(RS232)"
@@ -434,8 +435,8 @@ class ViewPanel(wx.Panel):
 		self.__attach_events()
 
 		self.dt = RxTxDataTable()
-		self.dt.setColSize(parent.m_grid1)
 		parent.m_grid1.SetTable(self.dt, False, wx.grid.Grid.wxGridSelectCells)
+		self.dt.setColSize(parent.m_grid1)
 
 	def __attach_events(self):
 		print("attach events")
@@ -448,7 +449,8 @@ class ViewPanel(wx.Panel):
 
 	def OnFichero(self, event):
 		wildcard1 = "pcap (*.PCAP; *.pcap)|*.PCAP; *.pcap| All files (*)|*"
-		dlg = wx.FileDialog(self, _("Select File"), self.path, "", wildcard1, wx.OPEN)
+		dlg = wx.FileDialog(self, _("Select File"), self.path, "", wildcard1, wx.FD_OPEN)
+		
 		if dlg.ShowModal() == wx.ID_OK:
 			self.path = dlg.GetPath()
 			self.cargaFichero()
@@ -460,7 +462,7 @@ class ViewPanel(wx.Panel):
 		pcap = pcapy.open_offline(self.path)
 		data = dataPack()
 		while True:
-			hdr, pack = next(pcap)
+			hdr, pack = pcap.next()
 			if hdr is None:
 				break  # EOF
 			p = Packet(hdr, pack)
@@ -566,7 +568,7 @@ class HtmlWindow(wx.html.HtmlWindow):
 
 class AboutBox(wx.Dialog):
 	def __init__(self):
-		wx.Dialog.__init__(self, None, -1, "About ttyUSBViewer", style=wx.DEFAULT_DIALOG_STYLE | wx.THICK_FRAME | wx.RESIZE_BORDER | wx.TAB_TRAVERSAL)
+		wx.Dialog.__init__(self, None, -1, "About ttyUSBViewer", style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER | wx.TAB_TRAVERSAL)
 		hwin = HtmlWindow(self, -1, size=(400, 200))
 		vers = {}
 		vers["python"] = sys.version.split()[0]
@@ -586,13 +588,15 @@ class AboutBox(wx.Dialog):
 class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 	def __init__(self, parent):
 		core.ttyUsbSpy.ttyUsbSpy.__init__(self, parent)
+		self.CreateStatusBar(number=1, style=wx.STB_DEFAULT_STYLE, id=0, name="Status")
+		
 		self.SelectedT1 = False
 		self.SelectedT2 = False
 		self.listdata = []
 		self.scroll = 0
 
 		# Install gettext.  Once this is done, all strings enclosed in "_()" will automatically be translated.
-		gettext.install("ttyUSBSpy", "./locale", str=True)
+		gettext.install("ttyUSBSpy", localedir="./locale")
 		# Define supported languages
 		self.presLan_en = gettext.translation("ttyUSBSpy", "./locale", languages=["en"])  # English
 		self.presLan_es = gettext.translation("ttyUSBSpy", "./locale", languages=["es"])  # Spanish
@@ -669,11 +673,12 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 		self.view.SetCellBackground(self.OldRow, self.OldCol, True)
 
 		setup = self.view.GetSetup(self.OldRow, self.OldCol)
-		senal = self.DecodeSetup(setup)
-		self.m_textCtrlStatus.SetValue(senal)
+		if setup is not None:
+			senal = self.DecodeSetup(setup)
+			self.m_textCtrlStatus.SetValue(senal)
 
-		self.m_grid1.ForceRefresh()
-		self.SelectedT1 = True
+			self.m_grid1.ForceRefresh()
+			self.SelectedT1 = True
 
 		pass
 
@@ -694,9 +699,10 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 
 		self.SelectedT2 = True
 		setup = self.view.GetSetup(self.NewRow, self.NewCol)
-		senal = self.DecodeSetup(setup)
-		self.m_textCtrlStatus.SetValue(senal)
-		self.m_grid1.ForceRefresh()
+		if setup is not None:
+			senal = self.DecodeSetup(setup)
+			self.m_textCtrlStatus.SetValue(senal)
+			self.m_grid1.ForceRefresh()
 		pass
 
 	def viewgrid(self):
@@ -707,7 +713,7 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 
 		devnum = []
 		wildcard1 = "PCAP (*.PCAP; *.pcap)|*.PCAP;*.pcap| All files (*.*)|*.*"
-		dlg = wx.FileDialog(self, _("Select File"), os.getcwd(), "", wildcard1, wx.OPEN)
+		dlg = wx.FileDialog(self, _("Select File"), os.getcwd(), "", wildcard1, wx.FD_OPEN)
 		if dlg.ShowModal() == wx.ID_OK:
 			path = dlg.GetPath()
 			self.chargeGridFromFile(path)
@@ -812,17 +818,17 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 	def DecodeSetup(self, setup):
 
 		decoded = " "
-		#        print "setup:" +repr(setup)
+		#print("setup:" +repr(setup))
 		if setup != "0":
 			cadena = setup.split(" ")
 			if (cadena[1] == "22") and (cadena[0] == "21"):
 
-				if int(cadena[2], 16) & int("0x0200", 16):
+				if int(cadena[2], 16) & 0x0200:
 					decoded = decoded + "DTR "
-				if int(cadena[2], 16) & int("0x0100", 16):
+				if int(cadena[2], 16) & 0x0100:
 					decoded = decoded + "RTS "
 			elif (cadena[1] == "32") and (cadena[0] == "161"):
-				if int(cadena[8]) & int("0x80", 16):
+				if int(cadena[8]) & 0x80:
 					decoded = decoded + "CTS "
 
 		decoded = decoded + "(" + setup + ")"

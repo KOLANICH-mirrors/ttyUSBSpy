@@ -24,10 +24,10 @@ class ttyUsbSpy(wx.Frame):
 	def __init__(self, parent):
 		wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=_("ttyUsbSpy"), pos=wx.DefaultPosition, size=wx.Size(750, 517), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-		self.SetSizeHintsSz(wx.Size(640, -1), wx.DefaultSize)
+		self.SetSizeHints(wx.Size(640, -1), wx.DefaultSize)
 
 		self.m_toolBar1 = self.CreateToolBar(wx.TB_HORIZONTAL, wx.ID_ANY)
-		self.m_toolBar1.AddLabelTool(wx.ID_ANY, _("tool"), wx.Bitmap("core/gnome-panel-notification-area.png", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None)
+		self.m_toolBar1.AddTool(wx.ID_ANY, _("tool"), wx.Bitmap("core/gnome-panel-notification-area.png", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None)
 
 		self.m_toolBar1.Realize()
 
@@ -46,7 +46,7 @@ class ttyUsbSpy(wx.Frame):
 		self.m_buttonClean = wx.Button(self, wx.ID_ANY, _("Clean"), wx.DefaultPosition, wx.DefaultSize, 0)
 		bSizer71.Add(self.m_buttonClean, 0, wx.ALL, 5)
 
-		bSizer71.AddSpacer((100, 0), 0, wx.EXPAND, 5)
+		bSizer71.AddSpacer(100)
 
 		self.m_staticText7 = wx.StaticText(self, wx.ID_ANY, _("Languaje"), wx.DefaultPosition, wx.DefaultSize, 0)
 		self.m_staticText7.Wrap(-1)
@@ -74,7 +74,7 @@ class ttyUsbSpy(wx.Frame):
 
 		bSizer5 = wx.BoxSizer(wx.VERTICAL)
 
-		self.m_scrolledWindow1 = wx.ScrolledWindow(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.ALWAYS_SHOW_SB | wx.VSCROLL)
+		self.m_scrolledWindow1 = wx.ScrolledWindow(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize) # , wx.ALWAYS_SHOW_SB | wx.VSCROLL
 		self.m_scrolledWindow1.SetScrollRate(5, 5)
 		bSizer7 = wx.BoxSizer(wx.HORIZONTAL)
 

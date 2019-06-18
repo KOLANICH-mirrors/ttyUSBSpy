@@ -51,13 +51,13 @@ timeMs = 0
 USBMON_PACKET_FORMAT = dict(
 	# Attr        fmt     offset
 	urb=("<Q", 0),
-	event_type=("<c", 8),
+	event_type=("c", 8),
 	xfer_type=("<B", 9),
 	epnum=("<B", 10),
 	devnum=("<B", 11),
 	busnum=("<H", 12),
-	flag_setup=("<c", 14),
-	flag_data=("<c", 15),
+	flag_setup=("c", 14),
+	flag_data=("c", 15),
 	ts_sec=("<q", 16),
 	ts_usec=("<i", 24),
 	status=("<i", 28),
@@ -251,9 +251,9 @@ class Packet(PackedFields):
 				raise RuntimeError("Not a USB Packet")
 
 			self._hdr = hdr
-			self.datapack = array("c", pack)
+			self.datapack = array("b", pack)
 
-			if self.event_type not in ["C", "S", "E"] or self.xfer_type not in list(USBMON_TRANSFER_TYPE.values()):
+			if self.event_type not in {b"C", b"S", b"E"} or self.xfer_type not in set(USBMON_TRANSFER_TYPE.values()):
 				raise RuntimeError("Not a USB Packet")
 
 	@property
