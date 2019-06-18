@@ -21,12 +21,12 @@ _ = gettext.gettext
 class ttyUsbSpy ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = _(u"ttyUsbSpy"), pos = wx.DefaultPosition, size = wx.Size( 750,517 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = _("ttyUsbSpy"), pos = wx.DefaultPosition, size = wx.Size( 750,517 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.Size( 640,-1 ), wx.DefaultSize )
 		
 		self.m_toolBar1 = self.CreateToolBar( wx.TB_HORIZONTAL, wx.ID_ANY ) 
-		self.m_toolBar1.AddLabelTool( wx.ID_ANY, _(u"tool"), wx.Bitmap( u"core/gnome-panel-notification-area.png", wx.BITMAP_TYPE_ANY ), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None ) 
+		self.m_toolBar1.AddLabelTool( wx.ID_ANY, _("tool"), wx.Bitmap( "core/gnome-panel-notification-area.png", wx.BITMAP_TYPE_ANY ), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None ) 
 		
 		self.m_toolBar1.Realize() 
 		
@@ -39,16 +39,16 @@ class ttyUsbSpy ( wx.Frame ):
 		self.m_comboBoxttyUSB = wx.ComboBox( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, m_comboBoxttyUSBChoices, 0 )
 		bSizer71.Add( self.m_comboBoxttyUSB, 0, wx.ALL, 5 )
 		
-		self.m_buttonCapture = wx.Button( self, wx.ID_ANY, _(u"Capture"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_buttonCapture = wx.Button( self, wx.ID_ANY, _("Capture"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer71.Add( self.m_buttonCapture, 0, wx.ALL, 5 )
 		
-		self.m_buttonClean = wx.Button( self, wx.ID_ANY, _(u"Clean"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_buttonClean = wx.Button( self, wx.ID_ANY, _("Clean"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer71.Add( self.m_buttonClean, 0, wx.ALL, 5 )
 		
 		
 		bSizer71.AddSpacer( ( 100, 0), 0, wx.EXPAND, 5 )
 		
-		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, _(u"Languaje"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, _("Languaje"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText7.Wrap( -1 )
 		bSizer71.Add( self.m_staticText7, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -64,11 +64,11 @@ class ttyUsbSpy ( wx.Frame ):
 		
 		bSizer2 = wx.BoxSizer( wx.HORIZONTAL )
 		
-		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, _(u"Select File:"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, _("Select File:"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText1.Wrap( -1 )
 		bSizer2.Add( self.m_staticText1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		self.m_buttonfichero = wx.Button( self, wx.ID_ANY, _(u"file"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_buttonfichero = wx.Button( self, wx.ID_ANY, _("file"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer2.Add( self.m_buttonfichero, 1, wx.ALL, 5 )
 		
 		
@@ -114,15 +114,15 @@ class ttyUsbSpy ( wx.Frame ):
 		
 		bSizer6 = wx.BoxSizer( wx.HORIZONTAL )
 		
-		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, _(u"Dev:"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, _("Dev:"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText5.Wrap( -1 )
 		bSizer6.Add( self.m_staticText5, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
 		m_comboBoxdevChoices = []
-		self.m_comboBoxdev = wx.ComboBox( self, wx.ID_ANY, _(u"-"), wx.DefaultPosition, wx.DefaultSize, m_comboBoxdevChoices, wx.CB_READONLY )
+		self.m_comboBoxdev = wx.ComboBox( self, wx.ID_ANY, _("-"), wx.DefaultPosition, wx.DefaultSize, m_comboBoxdevChoices, wx.CB_READONLY )
 		bSizer6.Add( self.m_comboBoxdev, 0, wx.ALL, 5 )
 		
-		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, _(u"Modem Line Status"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, _("Modem Line Status"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText6.Wrap( -1 )
 		bSizer6.Add( self.m_staticText6, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -134,11 +134,11 @@ class ttyUsbSpy ( wx.Frame ):
 		
 		bSizer5.Add( bSizer6, 0, 0, 5 )
 		
-		sbSizer1 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, _(u"Times") ), wx.VERTICAL )
+		sbSizer1 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, _("Times") ), wx.VERTICAL )
 		
 		bSizer9 = wx.BoxSizer( wx.HORIZONTAL )
 		
-		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, _(u"Start(T1)"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, _("Start(T1)"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText2.Wrap( -1 )
 		bSizer9.Add( self.m_staticText2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -147,7 +147,7 @@ class ttyUsbSpy ( wx.Frame ):
 		
 		bSizer9.Add( self.m_textCtrlInicio, 0, wx.ALL, 5 )
 		
-		self.m_staticText3 = wx.StaticText( self, wx.ID_ANY, _(u"End(T2)"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText3 = wx.StaticText( self, wx.ID_ANY, _("End(T2)"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText3.Wrap( -1 )
 		bSizer9.Add( self.m_staticText3, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -156,7 +156,7 @@ class ttyUsbSpy ( wx.Frame ):
 		
 		bSizer9.Add( self.m_textCtrlFin, 0, wx.ALL, 5 )
 		
-		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, _(u"Delta(T2-T1)(ms)"), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, _("Delta(T2-T1)(ms)"), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText4.Wrap( -1 )
 		bSizer9.Add( self.m_staticText4, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		

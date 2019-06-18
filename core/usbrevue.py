@@ -44,7 +44,7 @@ import time
 import pdb
 #logging.basicConfig(level=logging.DEBUG)
 
-from util import reverse_update_dict, apply_mask
+from .util import reverse_update_dict, apply_mask
 
 timeMs = 0
 USBMON_PACKET_FORMAT = dict(
@@ -127,7 +127,7 @@ class PackedFields(object):
         self.update_parent = update_parent
 
     def cache(self, attr, lookup_func):
-        if not self._cache.has_key(attr):
+        if attr not in self._cache:
             self._cache[attr] = lookup_func(attr)
         return self._cache[attr]
 
@@ -255,7 +255,7 @@ class Packet(PackedFields):
             self.datapack = array('c', pack)
 
             if self.event_type not in ['C', 'S', 'E'] or \
-                    self.xfer_type not in USBMON_TRANSFER_TYPE.values():
+                    self.xfer_type not in list(USBMON_TRANSFER_TYPE.values()):
                 raise RuntimeError("Not a USB Packet")
 
     @property
@@ -408,52 +408,52 @@ class Packet(PackedFields):
         # programmatically--iterating through each attribute by offset.
         # Requires that inappropriate attributes raise exceptions, etc.
         """Print detailed packet header information for debug purposes. """
-        print "########################################################"
-        print "urb = %d" % (self.urb)
-        print "event_type = %s" % (self.event_type)
-        print "xfer_type = %d" % (self.xfer_type)
-        print "epnum = %d" % (self.epnum)
-        print "devnum = %d" % (self.devnum)
-        print "busnum = %d" % (self.busnum)
-        print "flag_setup = %s" % (self.flag_setup)
-        print "flag_data = %s" % (self.flag_data)
-        print "ts_sec = %d" % (self.ts_sec,)
-        print "ts_usec = %d" % (self.ts_usec)
-        print "status = %d" % (self.status)
-        print "length = %d" % (self.length)
-        print "len_cap = %d" % (self.len_cap)
+        print("########################################################")
+        print("urb = %d" % (self.urb))
+        print("event_type = %s" % (self.event_type))
+        print("xfer_type = %d" % (self.xfer_type))
+        print("epnum = %d" % (self.epnum))
+        print("devnum = %d" % (self.devnum))
+        print("busnum = %d" % (self.busnum))
+        print("flag_setup = %s" % (self.flag_setup))
+        print("flag_data = %s" % (self.flag_data))
+        print("ts_sec = %d" % (self.ts_sec,))
+        print("ts_usec = %d" % (self.ts_usec))
+        print("status = %d" % (self.status))
+        print("length = %d" % (self.length))
+        print("len_cap = %d" % (self.len_cap))
         # setup is only meaningful if self.is_setup_packet is True)
         if self.is_setup_packet:
-            print "setup = %s" % (self.setup.data_to_str())
+            print("setup = %s" % (self.setup.data_to_str()))
         # error_count and numdesc are only meaningful for isochronous transfers
         # (xfer_type == 0)
         #if (self.xfer_type == 0):
         if self.is_isochronous_xfer:
-            print "error_count = %d" % (self.error_count)
-            print "numdesc = %d" % (self.numdesc)
+            print("error_count = %d" % (self.error_count))
+            print("numdesc = %d" % (self.numdesc))
         # interval is only meaningful for isochronous or interrupt transfers)
         # (xfer_type in [0,1]))
         #if (self.xfer_type in [0,1]):
         if self.is_isochronous_xfer or self.is_interrupt_xfer:
-            print "interval = %d" % (self.interval)
+            print("interval = %d" % (self.interval))
         # start_frame is only meaningful for isochronous transfers)
         if self.is_isochronous_xfer:
-            print "start_frame = %d" % (self.start_frame)
-        print "xfer_flags = %d" % (self.xfer_flags)
-        print "ndesc = %d" % (self.ndesc)
+            print("start_frame = %d" % (self.start_frame))
+        print("xfer_flags = %d" % (self.xfer_flags))
+        print("ndesc = %d" % (self.ndesc))
         # print "datalen = " % (datalen)
         # print "data = " % (self.data)
-        print "data =", self.data
+        print("data =", self.data)
         # print "hdr = " % (self.hdr)
-        print "hdr =", self.hdr
+        print("hdr =", self.hdr)
         # print "packet = " % (self.pack)
 
 
     def print_pcap_summary(self):
         """Print concise pcap header summary information for debug purposes."""
-        print ('%s: Captured %d bytes, truncated to %d bytes' % (
+        print(('%s: Captured %d bytes, truncated to %d bytes' % (
                 datetime.datetime.now(), self.hdr.getlen(),
-                self.hdr.getcaplen()))
+                self.hdr.getcaplen())))
 
     def print_fecha_dato(self):
         global timeMs
@@ -461,7 +461,7 @@ class Packet(PackedFields):
         if timeMs != 0:
             oldMs = timeMs
             deltaMs = nowMs - oldMs
-            print "({0}{1}) {2} {3}ms".format("ZICB"[self.xfer_type], "oi"[self.epnum >> 7],self.data,deltaMs) 
+            print("({0}{1}) {2} {3}ms".format("ZICB"[self.xfer_type], "oi"[self.epnum >> 7],self.data,deltaMs)) 
         timeMs = nowMs
 
     def get_dato_serie(self,b):
@@ -496,10 +496,10 @@ class Packet(PackedFields):
             try:
                 array1[i]=int(array1[i])
             except TypeError:
-                print "array1[i] not int:"
+                print("array1[i] not int:")
 
-        print array1
-        print "Salgo del 100% cumcumber club"
+        print(array1)
+        print("Salgo del 100% cumcumber club")
         rtrn = " ".join(map(str, array1))
         
         return rtrn
@@ -692,7 +692,7 @@ if __name__ == '__main__':
     #out = pcap.dump_open('-')
 
     while 1:
-        hdr, pack = pcap.next()
+        hdr, pack = next(pcap)
         if hdr is None:
             break # EOF
         p = Packet(hdr, pack)

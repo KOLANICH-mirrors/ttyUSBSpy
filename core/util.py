@@ -30,7 +30,7 @@ def reverse_update_dict(dictionary):
     >>> d
     {'a': 1, 1: 'a'}
     """
-    dictionary.update([ (val,key) for key,val in dictionary.items() ])
+    dictionary.update([ (val,key) for key,val in list(dictionary.items()) ])
 
 def apply_mask(mask, oval, nval):
     """Apply a mask with nval to oval, without disturbing bits in ~mask.

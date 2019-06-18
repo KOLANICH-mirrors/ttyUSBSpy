@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from __future__ import division
+
 
 import wx, wx.html
 #import wx.grid
@@ -174,7 +174,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
     def DeleteAllRows(self):
         tam = len(self.tabledata)
         cnt = 0
-        print "Borrar lineas:"+repr(tam)
+        print("Borrar lineas:"+repr(tam))
         while len(self.tabledata) > 0: 
             self.tabledata = self.tabledata[:-1]
             self.currentRows = self.currentRows-1
@@ -249,7 +249,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
 ##
     def ProcessDataTable(self):
         a = 0
-        print "ProcessDataTable[" +repr(len(self.listdata))+"]"
+        print("ProcessDataTable[" +repr(len(self.listdata))+"]")
         direcOld = "Inicio"
         dataVacio = dataPack()
 #        print "1.-self.SelectedDevnum:"+repr(self.SelectedDevnum)
@@ -328,7 +328,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
                                 self.processedlistdata.append(dataASCII)
 #                                print "DECODED2:"+repr(len(self.processedlistdata)//17)
                                     
-        print "Processed[" +repr(len(self.processedlistdata))+"]" 
+        print("Processed[" +repr(len(self.processedlistdata))+"]") 
         falta = len(self.processedlistdata) % 17
         if ( falta != 0):
             dataEnd = dataPack()
@@ -372,7 +372,7 @@ class RxTxDataTable(wx.grid.PyGridTableBase):
                 intvalue = int (sz_value)
                 
                 if intvalue > 32 and intvalue < 127:
-                    sz_value = str(unichr(intvalue))
+                    sz_value = str(chr(intvalue))
                 else:
                     sz_value = "."   
             sz_decoded = sz_decoded + sz_value
@@ -449,7 +449,7 @@ class ViewPanel(wx.Panel):
 
 
     def __attach_events(self):
-        print "attach events"
+        print("attach events")
 #        self.Bind(wx.EVT_PAINT, self.OnPaint)
 #        self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
 #        self.Bind(wx.EVT_LEFT_UP, self.OnLeftUp)
@@ -458,7 +458,7 @@ class ViewPanel(wx.Panel):
 
     def OnFichero(self, event):
         wildcard1 = "pcap (*.PCAP; *.pcap)|*.PCAP; *.pcap| All files (*)|*"
-        dlg = wx.FileDialog(self, _(u"Select File"), self.path, "", wildcard1, wx.OPEN)
+        dlg = wx.FileDialog(self, _("Select File"), self.path, "", wildcard1, wx.OPEN)
         if dlg.ShowModal() == wx.ID_OK:
             self.path = dlg.GetPath()
             self.cargaFichero()
@@ -470,7 +470,7 @@ class ViewPanel(wx.Panel):
         pcap = pcapy.open_offline(self.path)
         data = dataPack()
         while 1:
-            hdr, pack = pcap.next()
+            hdr, pack = next(pcap)
             if hdr is None:
                 break # EOF
             p = Packet(hdr, pack)
@@ -599,7 +599,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
 
 
         # Install gettext.  Once this is done, all strings enclosed in "_()" will automatically be translated.
-        gettext.install('ttyUSBSpy', './locale', unicode=True)
+        gettext.install('ttyUSBSpy', './locale', str=True)
         # Define supported languages
         self.presLan_en = gettext.translation('ttyUSBSpy', './locale', languages=['en']) # English
         self.presLan_es = gettext.translation('ttyUSBSpy', './locale', languages=['es']) # Spanish
@@ -612,7 +612,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
             self.m_comboBoxttyUSB.Append(files)
 
         if self.m_comboBoxttyUSB.GetCount() > 0 and os.getuid()==0:
-            print "self.m_comboBoxttyUSB:"+repr(self.m_comboBoxttyUSB.GetCount())
+            print("self.m_comboBoxttyUSB:"+repr(self.m_comboBoxttyUSB.GetCount()))
             self.m_buttonCapture.Enable()
         else:
 # Como no hay ttyUSB o no soy superuser deshabilito la posibilidad de capturar
@@ -620,7 +620,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
         	
 	# Handlers for ttyUsbViewer events.
     def OnToolHelp( self, event ):
-        print "OnToolHelp"
+        print("OnToolHelp")
         dlg = AboutBox()
         dlg.ShowModal()
         dlg.Destroy()
@@ -649,13 +649,13 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
               
 	def OnSelectLanguaje( self, event ):
 		# TODO: Implement OnSelectLanguaje
-		print "Idioma"
+		print("Idioma")
 		pass		
 		
     def OnMouseEvent( self, event ):
-        print "Range select"
-        print "row:" +repr(event.GetRow())
-        print "Col:" +repr(event.GetCol())
+        print("Range select")
+        print("row:" +repr(event.GetRow()))
+        print("Col:" +repr(event.GetCol()))
         pass
 	
     def OnGridSelectCell( self, event ):
@@ -714,7 +714,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
 
         devnum = []
         wildcard1 = "PCAP (*.PCAP; *.pcap)|*.PCAP;*.pcap| All files (*.*)|*.*"
-        dlg = wx.FileDialog(self, _(u"Select File"), os.getcwd(), "", wildcard1, wx.OPEN)
+        dlg = wx.FileDialog(self, _("Select File"), os.getcwd(), "", wildcard1, wx.OPEN)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             self.chargeGridFromFile(path) 
@@ -723,9 +723,9 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
 
 
     def OnButtonCapture(self, event):
-        print "MyButton"
+        print("MyButton")
         
-        if (self.m_buttonCapture.GetLabelText() == _(u"Capture")):
+        if (self.m_buttonCapture.GetLabelText() == _("Capture")):
             a = self.m_comboBoxttyUSB.GetValue()
             # lsusb | grep Serial
             output=subprocess.check_output("lsusb | grep Serial", shell=True)
@@ -741,11 +741,11 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
             self.captureFile="./captures/usblog"+filedate+".pcap"         
             self.captura = subprocess.Popen(["tcpdump", "-i", usbmon, "-w", self.captureFile]) 
             
-            self.m_buttonCapture.SetLabel(_(u"Stop"))
+            self.m_buttonCapture.SetLabel(_("Stop"))
         else:
             self.captura.send_signal(signal.SIGINT)
 #            self.captura.kill()
-            self.m_buttonCapture.SetLabel(_(u"Capture"))
+            self.m_buttonCapture.SetLabel(_("Capture"))
             self.chargeGridFromFile(self.captureFile)    
 
 #Clean the grid
@@ -761,20 +761,20 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
             self.view.setDevnum("-")    
             mypath = os.path.basename(path)
             self.SetStatusText("You selected: %s" % mypath)
-            print "file:"  + repr(path)
+            print("file:"  + repr(path))
             self.m_buttonfichero.SetLabel(path)
             self.view.cargaFichero(path)
             self.view.Devnums(devnum)
             for i in range(len(devnum)):
                 self.m_comboBoxdev.Append(str(devnum[i]))
-                print "devnum[i]:"+repr(devnum[i])
+                print("devnum[i]:"+repr(devnum[i]))
                 
             self.m_grid1.SetColSize(16,200)
         
     def OnComboDevSelect(self, event):
 		# TODO: Implement OnComboDevSelect
         self.SelectedDevnum = self.m_comboBoxdev.GetValue()
-        print "OnComboDevSelect:"+repr(self.SelectedDevnum)
+        print("OnComboDevSelect:"+repr(self.SelectedDevnum))
         if "(RS232)" in self.SelectedDevnum:
             a =self.SelectedDevnum.split('(RS232)')
             self.SelectedDevnum = int (a[0])
@@ -790,7 +790,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
 ###############################################################################  
     def setLateralPanelTxt(self):
 
-        print "len(self.listdata):" +repr(len(self.listdata))
+        print("len(self.listdata):" +repr(len(self.listdata)))
         for i in range(len(self.listdata)):
             row = i // 16 # division entera
             col = i % 16 # resto division
@@ -801,7 +801,7 @@ class DlgttyUsbSpy( core.ttyUsbSpy.ttyUsbSpy ):
                 intvalue = int (sz_value)
                 
                 if intvalue > 32 and intvalue < 127:
-                    sz_value = str(unichr(intvalue))
+                    sz_value = str(chr(intvalue))
                 else:
                     sz_value = "."
 
@@ -840,7 +840,7 @@ if __name__ == '__main__':
     # configure logging
     logging.basicConfig(format='--- [%(levelname)s] %(message)s', level=logging.DEBUG)
     
-    print "Start ttyUsbView"
+    print("Start ttyUsbView")
 
     app = wx.App(False)
     theFrame = DlgttyUsbSpy(None)
