@@ -18,7 +18,8 @@ _ = gettext.gettext
 ###########################################################################
 # Class ttyUsbSpy
 ###########################################################################
-
+from pathlib import Path
+thisDir = Path(__file__).parent
 
 class ttyUsbSpy(wx.Frame):
 	def __init__(self, parent):
@@ -27,7 +28,8 @@ class ttyUsbSpy(wx.Frame):
 		self.SetSizeHints(wx.Size(640, -1), wx.DefaultSize)
 
 		self.m_toolBar1 = self.CreateToolBar(wx.TB_HORIZONTAL, wx.ID_ANY)
-		self.m_toolBar1.AddTool(wx.ID_ANY, _("tool"), wx.Bitmap("core/gnome-panel-notification-area.png", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None)
+		
+		self.m_toolBar1.AddTool(wx.ID_ANY, _("tool"), wx.Bitmap(str(thisDir / "gnome-panel-notification-area.png"), wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, wx.EmptyString, wx.EmptyString, None)
 
 		self.m_toolBar1.Realize()
 

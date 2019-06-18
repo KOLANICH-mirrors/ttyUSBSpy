@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011 Austin Leirvik <aua at pdx.edu>
 # Copyright (C) 2011 Wil Cooley <wcooley at pdx.edu>

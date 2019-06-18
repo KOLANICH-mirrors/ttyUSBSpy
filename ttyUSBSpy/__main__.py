@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2013 koldo
 #
@@ -33,8 +33,9 @@ import platform
 import locale
 
 import pcapy
-import core.ttyUsbSpy
-from core.usbrevue import *
+from . import core
+from .core import ttyUsbSpy
+from .core.usbrevue import *
 from collections import *
 from copy import deepcopy
 import copy
@@ -584,6 +585,9 @@ class AboutBox(wx.Dialog):
 
 # Implementing ttyUsbViewer
 
+from pathlib import Path
+thisDir = Path(__file__).parent
+localeDir = thisDir / "locale"
 
 class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 	def __init__(self, parent):
@@ -596,10 +600,10 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 		self.scroll = 0
 
 		# Install gettext.  Once this is done, all strings enclosed in "_()" will automatically be translated.
-		gettext.install("ttyUSBSpy", localedir="./locale")
+		gettext.install("ttyUSBSpy", localedir=localeDir)
 		# Define supported languages
-		self.presLan_en = gettext.translation("ttyUSBSpy", "./locale", languages=["en"])  # English
-		self.presLan_es = gettext.translation("ttyUSBSpy", "./locale", languages=["es"])  # Spanish
+		self.presLan_en = gettext.translation("ttyUSBSpy", localeDir, languages=["en"])  # English
+		self.presLan_es = gettext.translation("ttyUSBSpy", localeDir, languages=["es"])  # Spanish
 		# Install English as the initial language
 		#        self.presLan_en.install()
 		self.presLan_es.install()
@@ -834,8 +838,7 @@ class DlgttyUsbSpy(core.ttyUsbSpy.ttyUsbSpy):
 		decoded = decoded + "(" + setup + ")"
 		return decoded
 
-
-if __name__ == "__main__":
+def main():
 	# configure logging
 	logging.basicConfig(format="--- [%(levelname)s] %(message)s", level=logging.DEBUG)
 
@@ -846,3 +849,7 @@ if __name__ == "__main__":
 	theFrame.viewgrid()
 	theFrame.Show()
 	app.MainLoop()
+
+
+if __name__ == "__main__":
+	main()
