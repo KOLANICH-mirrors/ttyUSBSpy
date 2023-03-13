@@ -36,7 +36,6 @@ import pcapy
 from . import core
 from .core import ttyUsbSpy
 from .core.usbrevue import *
-from collections import *
 from copy import deepcopy
 import copy
 

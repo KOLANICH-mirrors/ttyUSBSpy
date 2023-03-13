@@ -36,7 +36,12 @@ __version__ = "0.0.1"
 
 import sys
 from array import array
-from collections import MutableSequence, Sequence
+
+try:
+	from collections.abc import MutableSequence, Sequence
+except ImportError:
+	from collections import MutableSequence, Sequence
+
 from functools import partial
 from logging import debug
 from pprint import pprint, pformat
