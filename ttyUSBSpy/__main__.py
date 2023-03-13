@@ -435,7 +435,7 @@ class ViewPanel(wx.Panel):
 		self.__attach_events()
 
 		self.dt = RxTxDataTable()
-		parent.m_grid1.SetTable(self.dt, False, wx.grid.Grid.wxGridSelectCells)
+		parent.m_grid1.SetTable(self.dt, False, wx.grid.Grid.GridSelectionModes.GridSelectCells)
 		self.dt.setColSize(parent.m_grid1)
 
 	def __attach_events(self):
